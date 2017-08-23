@@ -26,19 +26,15 @@ passport.use(
       callbackURL: '/auth/google/callback',
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // checks if user exists
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          //record already exists with this id
-          done(null, existingUser);
-        } else {
-          //record does not exist make a new user
-          new User({ googleId: profile.id }) //creates model instance
-            .save() //saves it to the db
-            .then(user => done(null, user)); //creates a newer model instance
-        }
-      });
+      const exsistingUser = await User.findOne({ googleId: profile.id });
+      if (exsistingUser) {
+        //record already exists with this id
+        return done(null, exsistingUser);
+      } //record does not exist make a new user
+      const user = await new User({ googleId: profile.id }).save(); //creates model instance and saves it to the db
+      done(null, user); //creates a newer model instance
     }
   )
 );
@@ -50,16 +46,13 @@ passport.use(
       clientSecret: keys.facebookClientSecret,
       callbackURL: '/auth/facebook/callback'
     },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({ facebookId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          done(null, existingUser);
-        } else {
-          new User({ facebookId: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const exsistingUser = await User.findOne({ facebookId: profile.id });
+      if (exsistingUser) {
+        return done(null, exsistingUser);
+      }
+      const user = await new User({ facebookId: profile.id }).save();
+      done(null, user);
     }
   )
 );
