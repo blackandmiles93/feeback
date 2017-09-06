@@ -9,7 +9,7 @@ class Mailer extends helper.Mail {
   constructor({ subject, recipients }, content) {
     super();
 
-    this.sendGridApi = sendgrid(keys.sendGridKey);
+    this.sendGridApi = sendgrid(keys.sendGridKey || keys.sendGridProdKey);
     this.from_email = new helper.Email('no-replay@feeback.com');
     this.subject = subject;
     this.body = new helper.Content('text/html', content);
