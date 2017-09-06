@@ -35,6 +35,7 @@ class Header extends Component {
           <Link
             to={this.props.auth ? '/surveys' : '/'} //ternary expression
             className="left brand-logo"
+            style={{ marginLeft: '5px' }}
           >
             Feeback
           </Link>

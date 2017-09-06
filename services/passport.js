@@ -28,10 +28,10 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       // checks if user exists
-      const exsistingUser = await User.findOne({ googleId: profile.id });
-      if (exsistingUser) {
+      const existingUser = await User.findOne({ googleId: profile.id });
+      if (existingUser) {
         //record already exists with this id
-        return done(null, exsistingUser);
+        return done(null, existingUser);
       } //record does not exist make a new user
       const user = await new User({ googleId: profile.id }).save(); //creates model instance and saves it to the db
       done(null, user); //creates a newer model instance
@@ -47,9 +47,9 @@ passport.use(
       callbackURL: '/auth/facebook/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
-      const exsistingUser = await User.findOne({ facebookId: profile.id });
-      if (exsistingUser) {
-        return done(null, exsistingUser);
+      const existingUser = await User.findOne({ facebookId: profile.id });
+      if (existingUser) {
+        return done(null, existingUser);
       }
       const user = await new User({ facebookId: profile.id }).save();
       done(null, user);

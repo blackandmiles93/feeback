@@ -5,9 +5,12 @@ const passport = require('passport'); // to make passport know to make use of th
 const keys = require('./config/keys');
 const bodyParser = require('body-parser');
 require('./models/User');
+require('./models/Survey');
 require('./services/passport'); //ES6 doesn't require you to add the .js at the end of a js file
 
-mongoose.connect(keys.mongoURI);
+mongoose.connect(keys.mongoURI, {
+  useMongoClient: true
+});
 
 const app = express();
 
@@ -24,6 +27,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 require('./routes/payRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // make sure express will serve up production assets
