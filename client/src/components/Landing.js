@@ -11,7 +11,13 @@ const Landing = () => {
       }}
     >
       <h1>Feeback</h1>
-      Collect feedback from your users to take your app to the next level
+      Collect feedback from your users to take your app to the next level!
+      <div>
+        <p>
+          Simply login with Google, and then discover how your customers feel
+          about you and your product!
+        </p>
+      </div>
     </div>
   );
 };
